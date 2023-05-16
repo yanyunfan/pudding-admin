@@ -1,16 +1,23 @@
-<h1>vue-pure-admin精简版（非国际化版本）</h1>
+<h1>pudding-admin</h1>
 
 [![license](https://img.shields.io/github/license/pure-admin/vue-pure-admin.svg)](LICENSE)
 
-**中文** | [English](./README.en-US.md)
-
 ## 介绍
 
-精简版是基于 [vue-pure-admin](https://github.com/pure-admin/vue-pure-admin) 提炼出的架子，包含主体功能，更适合实际项目开发，打包后的大小在全局引入 [element-plus](https://element-plus.org) 的情况下仍然低于 `2.3MB`，并且会永久同步完整版的代码。开启 `brotli` 压缩和 `cdn` 替换本地库模式后，打包大小低于 `350kb`
+`pudding-admin` 是后台管理系统。使用了最新的 `Vue3`、`Vite`、`Element-Plus`、`TypeScript`、`Pinia`、`Tailwindcss` 等主流技术开发。
 
-## 版本选择
+项目基于开源模板： [pure-admin-thin](https://github.com/pure-admin/pure-admin-thin) 。
 
-当前是非国际化版本哦，如果您需要国际化版本 [请点击](https://github.com/pure-admin/pure-admin-thin/tree/i18n)
+## 技术栈
+
+| 技术栈       | 描述                                   | 官网                                 |
+| ------------ | -------------------------------------- | ------------------------------------ |
+| Vue3         | 渐进式 JavaScript 框架                 | https://v3.cn.vuejs.org/             |
+| TypeScript   | JavaScript 的一个超集                  | https://www.tslang.cn/               |
+| Vite         | 前端开发与构建工具                     | https://cn.vitejs.dev/               |
+| Element Plus | 基于 Vue 3，面向设计师和开发者的组件库 | https://element-plus.gitee.io/zh-CN/ |
+| Pinia        | 新一代状态管理工具                     | https://pinia.vuejs.org/             |
+| Vue Router   | Vue.js 的官方路由                      | https://router.vuejs.org/zh/         |
 
 ## 配套视频
 
@@ -26,42 +33,15 @@
 
 - [点我查看预览站](https://pure-admin-thin.netlify.app/#/login)
 
-## 维护者
+## 项目启动
 
-[xiaoxian521](https://github.com/xiaoxian521)
+```bash
+# 安装 pnpm
+npm install pnpm -g
 
-## 支持
-
-如果你觉得这个项目对您有帮助，可以帮作者买一杯果汁 🍹 表示支持
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f69bf13c5b854ed5b699807cafa0e3ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:1304:0:0:0.awebp?" width="150px" height="150px" />
-
-## `QQ` 交流群
-
-[点击去加入](https://yiming_chang.gitee.io/pure-admin-doc/pages/support/#qq-%E4%BA%A4%E6%B5%81%E7%BE%A4)
-
-## 用法
-
-### 安装依赖
-
+# 安装依赖
 pnpm install
 
-### 安装一个包
-
-pnpm add 包名
-
-### 卸载一个包
-
-pnpm remove 包名
-
-我认为你应该先 `fork` 项目去开发，以便我更新时您可以同步拉取更新！！！
-
-## ⚠️ 注意
-
-- 精简版不接受任何 `issues` 和 `pr`，如果有问题请到完整版 [issues](https://github.com/pure-admin/vue-pure-admin/issues/new/choose) 去提，谢谢！！！
-
-## 许可证
-
-原则上不收取任何费用及版权，可以放心使用，不过如需二次开源（比如用此平台二次开发并开源）请联系作者获取许可！
-
-[MIT © 2020-present, pure-admin](./LICENSE)
+# 项目运行
+npm run serve
+```
