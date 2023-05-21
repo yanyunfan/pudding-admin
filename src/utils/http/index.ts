@@ -13,6 +13,7 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -131,6 +132,13 @@ class PureHttp {
         if (PureHttp.initConfig.beforeResponseCallback) {
           PureHttp.initConfig.beforeResponseCallback(response);
           return response.data;
+        }
+        // 判断后台返回码
+        const { code, msg } = response.data;
+        console.log(response.data);
+        if (code !== "00000") {
+          message(msg, { type: "error" });
+          return Promise.reject(new Error(msg || "Error"));
         }
         return response.data;
       },

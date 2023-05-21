@@ -7,7 +7,8 @@ export default [
     method: "post",
     response: () => {
       return {
-        success: true,
+        code: "00000",
+        msg: "success",
         data: {
           list: [
             {
@@ -73,7 +74,8 @@ export default [
     method: "post",
     response: () => {
       return {
-        success: true,
+        code: "00000",
+        msg: "success",
         data: [
           {
             name: "杭州总公司",
@@ -215,7 +217,8 @@ export default [
     method: "post",
     response: () => {
       return {
-        success: true,
+        code: "00000",
+        msg: "success",
         data: {
           list: [
             {

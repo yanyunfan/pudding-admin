@@ -8,7 +8,8 @@ export default [
     response: ({ body }) => {
       if (body.refreshToken) {
         return {
-          success: true,
+          code: "00000",
+          msg: "success",
           data: {
             accessToken: "eyJhbGciOiJIUzUxMiJ9.newAdmin",
             refreshToken: "eyJhbGciOiJIUzUxMiJ9.newAdminRefresh",
@@ -18,7 +19,8 @@ export default [
         };
       } else {
         return {
-          success: false,
+          code: "B0001",
+          msg: "failed",
           data: {}
         };
       }

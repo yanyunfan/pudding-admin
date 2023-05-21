@@ -79,7 +79,8 @@ export default [
     method: "get",
     response: () => {
       return {
-        success: true,
+        code: "00000",
+        msg: "success",
         data: [systemRouter, permissionRouter]
       };
     }
