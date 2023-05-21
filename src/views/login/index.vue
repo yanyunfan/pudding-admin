@@ -43,9 +43,9 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: "admin123" })
+        .loginByUsername(ruleForm)
         .then(res => {
-          if (res.success) {
+          if (res.code == "00000") {
             // 获取后端路由
             initRouter().then(() => {
               router.push(getTopMenu(true).path);

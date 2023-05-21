@@ -20,11 +20,11 @@ const username = ref(useUserStoreHook()?.username);
 
 const options = [
   {
-    value: "admin",
+    value: "ADMIN",
     label: "管理员角色"
   },
   {
-    value: "common",
+    value: "COMMON",
     label: "普通角色"
   }
 ];

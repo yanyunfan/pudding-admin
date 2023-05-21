@@ -3,9 +3,9 @@ import { MockMethod } from "vite-plugin-mock";
 import { system } from "@/router/enums";
 
 /**
- * roles：页面级别权限，这里模拟二种 "admin"、"common"
- * admin：管理员角色
- * common：普通角色
+ * roles：页面级别权限，这里模拟二种 "ADMIN"、"COMMON"
+ * ADMIN：管理员角色
+ * COMMON：普通角色
  */
 const systemRouter = {
   path: "/system",
@@ -21,7 +21,7 @@ const systemRouter = {
       meta: {
         icon: "flUser",
         title: "用户管理",
-        roles: ["admin"]
+        roles: ["ADMIN"]
       }
     },
     {
@@ -30,7 +30,7 @@ const systemRouter = {
       meta: {
         icon: "role",
         title: "角色管理",
-        roles: ["admin"]
+        roles: ["ADMIN"]
       }
     },
     {
@@ -39,7 +39,7 @@ const systemRouter = {
       meta: {
         icon: "dept",
         title: "部门管理",
-        roles: ["admin"]
+        roles: ["ADMIN"]
       }
     }
   ]
@@ -58,7 +58,7 @@ const permissionRouter = {
       name: "PermissionPage",
       meta: {
         title: "页面权限",
-        roles: ["admin", "common"]
+        roles: ["ADMIN", "COMMON"]
       }
     },
     {
@@ -66,7 +66,7 @@ const permissionRouter = {
       name: "PermissionButton",
       meta: {
         title: "按钮权限",
-        roles: ["admin", "common"],
+        roles: ["ADMIN", "COMMON"],
         auths: ["btn_add", "btn_edit", "btn_delete"]
       }
     }
