@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDept } from "./hook";
+import { useDept } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
@@ -35,7 +35,7 @@ const {
       ref="formRef"
       :inline="true"
       :model="form"
-      class="bg-bg_color w-[99/100] pl-8 pt-4"
+      class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
       <el-form-item label="部门名称：" prop="name">
         <el-input
@@ -90,6 +90,8 @@ const {
         <pure-table
           ref="tableRef"
           border
+          adaptive
+          :adaptiveConfig="{ offsetBottom: 32 }"
           align-whole="center"
           row-key="id"
           showOverflowTooltip
@@ -138,3 +140,11 @@ const {
     </PureTableBar>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.search-form {
+  :deep(.el-form-item) {
+    margin-bottom: 12px;
+  }
+}
+</style>

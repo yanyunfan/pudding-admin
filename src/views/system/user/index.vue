@@ -39,12 +39,12 @@ const {
 <template>
   <div class="main">
     <tree class="w-[17%] float-left" />
-    <div class="float-right w-[81%]">
+    <div class="float-right w-[82%]">
       <el-form
         ref="formRef"
         :inline="true"
         :model="form"
-        class="bg-bg_color w-[99/100] pl-8 pt-4"
+        class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
       >
         <el-form-item label="用户名称：" prop="username">
           <el-input
@@ -97,6 +97,7 @@ const {
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
             border
+            adaptive
             align-whole="center"
             table-layout="auto"
             :loading="loading"
@@ -185,5 +186,11 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.search-form {
+  :deep(.el-form-item) {
+    margin-bottom: 12px;
+  }
 }
 </style>

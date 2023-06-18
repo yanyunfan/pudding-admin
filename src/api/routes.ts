@@ -1,7 +1,8 @@
 import { http } from "@/utils/http";
 
 type Result = {
-  success: boolean;
+  code: string;
+  msg: string;
   data: Array<any>;
 };
 

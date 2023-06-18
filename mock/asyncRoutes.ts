@@ -1,6 +1,5 @@
 // 模拟后端动态生成路由
 import { MockMethod } from "vite-plugin-mock";
-import { system } from "@/router/enums";
 
 /**
  * roles：页面级别权限，这里模拟二种 "ADMIN"、"COMMON"
@@ -12,7 +11,7 @@ const systemRouter = {
   meta: {
     icon: "setting",
     title: "系统管理",
-    rank: system
+    rank: 12
   },
   children: [
     {
