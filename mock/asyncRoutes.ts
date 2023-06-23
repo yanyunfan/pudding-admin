@@ -44,34 +44,6 @@ const systemRouter = {
   ]
 };
 
-const permissionRouter = {
-  path: "/permission",
-  meta: {
-    title: "权限管理",
-    icon: "lollipop",
-    rank: 10
-  },
-  children: [
-    {
-      path: "/permission/page/index",
-      name: "PermissionPage",
-      meta: {
-        title: "页面权限",
-        roles: ["ADMIN", "COMMON"]
-      }
-    },
-    {
-      path: "/permission/button/index",
-      name: "PermissionButton",
-      meta: {
-        title: "按钮权限",
-        roles: ["ADMIN", "COMMON"],
-        auths: ["btn_add", "btn_edit", "btn_delete"]
-      }
-    }
-  ]
-};
-
 export default [
   {
     url: "/getAsyncRoutes",
@@ -80,7 +52,7 @@ export default [
       return {
         code: "00000",
         msg: "success",
-        data: [systemRouter, permissionRouter]
+        data: [systemRouter]
       };
     }
   }
