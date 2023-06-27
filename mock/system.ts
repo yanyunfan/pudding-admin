@@ -3,7 +3,7 @@ import { MockMethod } from "vite-plugin-mock";
 export default [
   // 用户
   {
-    url: "/user",
+    url: "/users",
     method: "get",
     response: () => {
       return {
@@ -83,10 +83,10 @@ export default [
   },
   // 角色
   {
-    url: "/role",
-    method: "post",
-    response: ({ body }) => {
-      let list = [
+    url: "/roles",
+    method: "get",
+    response: () => {
+      const list = [
         {
           createTime: 1605456000000, // 时间戳（毫秒ms）
           updateTime: 1684512000000,
@@ -108,11 +108,6 @@ export default [
           remark: "普通角色拥有部分权限"
         }
       ];
-      list = list.filter(item => item.name.includes(body?.name));
-      list = list.filter(item =>
-        String(item.status).includes(String(body?.status))
-      );
-      if (body.code) list = list.filter(item => item.code === body.code);
       return {
         code: "00000",
         msg: "success",
@@ -127,7 +122,7 @@ export default [
   },
   // 部门
   {
-    url: "/dept",
+    url: "/depts",
     method: "get",
     response: () => {
       return {

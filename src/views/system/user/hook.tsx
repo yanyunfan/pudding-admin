@@ -63,8 +63,18 @@ export function useUser() {
       formatter: ({ dept }) => dept.name
     },
     {
+      label: "头像",
+      prop: "avatar",
+      minWidth: 90
+    },
+    {
       label: "手机号码",
       prop: "mobile",
+      minWidth: 90
+    },
+    {
+      label: "邮箱",
+      prop: "email",
       minWidth: 90
     },
     {

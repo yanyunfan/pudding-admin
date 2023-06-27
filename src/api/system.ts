@@ -23,15 +23,15 @@ type ResultDept = {
 
 /** 获取用户管理列表 */
 export const getUserList = (data?: object) => {
-  return http.request<Result>("get", "/user", { data });
+  return http.request<Result>("get", "/users", { data });
 };
 
 /** 获取角色管理列表 */
 export const getRoleList = (data?: object) => {
-  return http.request<Result>("post", "/role", { data });
+  return http.request<Result>("get", "/roles", { data });
 };
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.request<ResultDept>("get", "/dept", { data });
+  return http.request<ResultDept>("get", "/depts", { data });
 };
