@@ -3,7 +3,7 @@ import { MockMethod } from "vite-plugin-mock";
 export default [
   // 用户
   {
-    url: "/users",
+    url: "/api/system/users",
     method: "get",
     response: () => {
       return {
