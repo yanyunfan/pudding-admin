@@ -2,9 +2,9 @@
 import { MockMethod } from "vite-plugin-mock";
 
 /**
- * roles：页面级别权限，这里模拟二种 "ADMIN"、"COMMON"
- * ADMIN：管理员角色
- * COMMON：普通角色
+ * roles：页面级别权限，这里模拟二种 "admin"、"common"
+ * admin：管理员角色
+ * common：普通角色
  */
 const systemRouter = {
   path: "/system",
@@ -20,7 +20,7 @@ const systemRouter = {
       meta: {
         icon: "flUser",
         title: "用户管理",
-        roles: ["ADMIN"]
+        roles: ["admin"]
       }
     },
     {
@@ -29,7 +29,7 @@ const systemRouter = {
       meta: {
         icon: "role",
         title: "角色管理",
-        roles: ["ADMIN"]
+        roles: ["admin"]
       }
     },
     {
@@ -38,7 +38,34 @@ const systemRouter = {
       meta: {
         icon: "dept",
         title: "部门管理",
-        roles: ["ADMIN"]
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/system/menu/index",
+      name: "Menu",
+      meta: {
+        icon: "menu",
+        title: "菜单管理",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/system/dict/index",
+      name: "Dict",
+      meta: {
+        icon: "collection",
+        title: "字典管理",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/system/online/index",
+      name: "Online",
+      meta: {
+        icon: "monitor",
+        title: "在线用户",
+        roles: ["admin"]
       }
     }
   ]

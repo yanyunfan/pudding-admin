@@ -3,7 +3,7 @@ import { MockMethod } from "vite-plugin-mock";
 export default [
   // 用户
   {
-    url: "/api/system/users",
+    url: "/users",
     method: "get",
     response: () => {
       return {
@@ -93,7 +93,7 @@ export default [
           creator: "admin",
           id: 1,
           name: "超级管理员",
-          code: "ADMIN",
+          code: "admin",
           status: 1, // 状态 1 启用 0 停用
           remark: "超级管理员拥有最高权限"
         },
@@ -103,7 +103,7 @@ export default [
           creator: "admin",
           id: 2,
           name: "普通角色",
-          code: "COMMON",
+          code: "common",
           status: 1,
           remark: "普通角色拥有部分权限"
         }

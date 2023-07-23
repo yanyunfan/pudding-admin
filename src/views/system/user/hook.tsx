@@ -68,7 +68,7 @@ export function useUser() {
       minWidth: 90
     },
     {
-      label: "手机号码",
+      label: "手机号",
       prop: "mobile",
       minWidth: 90
     },

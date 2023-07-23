@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { getDeptList } from "@/api/system";
+import { getMenuList } from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -22,10 +22,51 @@ export function useDept() {
 
   const columns: TableColumnList = [
     {
-      label: "部门名称",
+      label: "id",
+      prop: "id",
+      width: 70,
+      align: "left"
+    },
+    {
+      label: "菜单名称",
       prop: "name",
       width: 180,
       align: "left"
+    },
+    {
+      label: "父菜单id",
+      prop: "parentId",
+      minWidth: 70
+    },
+    {
+      label: "菜单类型",
+      prop: "type",
+      minWidth: 70
+    },
+    {
+      label: "路由路径",
+      prop: "path",
+      minWidth: 70
+    },
+    {
+      label: "组件路径",
+      prop: "component",
+      minWidth: 70
+    },
+    {
+      label: "菜单图标",
+      prop: "icon",
+      minWidth: 70
+    },
+    {
+      label: "按钮权限",
+      prop: "perm",
+      minWidth: 70
+    },
+    {
+      label: "是否外链",
+      prop: "isFrame",
+      minWidth: 70
     },
     {
       label: "排序",
@@ -69,7 +110,7 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getDeptList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    const { data } = await getMenuList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称

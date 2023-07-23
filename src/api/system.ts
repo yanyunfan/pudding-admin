@@ -23,15 +23,30 @@ type ResultDept = {
 
 /** 获取用户管理列表 */
 export const getUserList = (data?: object) => {
-  return http.request<Result>("get", "/users", { data });
+  return http.request<Result>("get", "/api/system/users", { data });
 };
 
 /** 获取角色管理列表 */
 export const getRoleList = (data?: object) => {
-  return http.request<Result>("get", "/roles", { data });
+  return http.request<Result>("get", "/api/system/roles", { data });
 };
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.request<ResultDept>("get", "/depts", { data });
+  return http.request<ResultDept>("get", "/api/system/depts", { data });
+};
+
+/** 获取菜单列表 */
+export const getMenuList = (data?: object) => {
+  return http.request<ResultDept>("get", "/api/system/menus", { data });
+};
+
+/** 获取字典列表 */
+export const getDictList = (data?: object) => {
+  return http.request<ResultDept>("get", "/api/system/dicts/types", { data });
+};
+
+/** 获取在线用户列表 */
+export const getOnlineUserList = (data?: object) => {
+  return http.request<ResultDept>("get", "/api/system/users/online", { data });
 };

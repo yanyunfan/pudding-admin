@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
-import { getDeptList } from "@/api/system";
+import { getOnlineUserList } from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
@@ -22,29 +22,49 @@ export function useDept() {
 
   const columns: TableColumnList = [
     {
-      label: "部门名称",
-      prop: "name",
-      width: 180,
+      label: "id",
+      prop: "id",
+      width: 70,
       align: "left"
     },
     {
-      label: "排序",
-      prop: "sort",
+      label: "用户id",
+      prop: "userId",
       minWidth: 70
     },
     {
-      label: "状态",
-      prop: "status",
-      minWidth: 100,
-      cellRenderer: ({ row, props }) => (
-        <el-tag size={props.size} style={tagStyle.value(row.status)}>
-          {row.status === 1 ? "启用" : "停用"}
-        </el-tag>
-      )
+      label: "IP",
+      prop: "ip",
+      minWidth: 70
+    },
+    {
+      label: "区域",
+      prop: "area",
+      minWidth: 70
+    },
+    {
+      label: "来源",
+      prop: "source",
+      minWidth: 70
+    },
+    {
+      label: "浏览器",
+      prop: "browser",
+      minWidth: 70
+    },
+    {
+      label: "操作系统",
+      prop: "os",
+      minWidth: 70
+    },
+    {
+      label: "是否移动",
+      prop: "mobile",
+      minWidth: 70
     },
     {
       label: "创建时间",
-      minWidth: 200,
+      minWidth: 100,
       prop: "createTime",
       formatter: ({ createTime }) =>
         dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
@@ -69,7 +89,7 @@ export function useDept() {
 
   async function onSearch() {
     loading.value = true;
-    const { data } = await getDeptList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
+    const { data } = await getOnlineUserList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
     if (!isAllEmpty(form.name)) {
       // 前端搜索部门名称

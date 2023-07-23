@@ -43,6 +43,11 @@ export function useRole() {
       minWidth: 150
     },
     {
+      label: "排序",
+      prop: "sort",
+      minWidth: 150
+    },
+    {
       label: "状态",
       minWidth: 130,
       cellRenderer: scope => (
@@ -59,11 +64,6 @@ export function useRole() {
           onChange={() => onChange(scope as any)}
         />
       )
-    },
-    {
-      label: "备注",
-      prop: "remark",
-      minWidth: 150
     },
     {
       label: "创建时间",
