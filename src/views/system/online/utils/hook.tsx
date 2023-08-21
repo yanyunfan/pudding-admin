@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { getOnlineUserList } from "@/api/system";
@@ -117,54 +116,6 @@ export function useDept() {
     return newTreeList;
   }
 
-  function openDialog(title = "新增", row?: FormItemProps) {
-    addDialog({
-      title: `${title}部门`,
-      props: {
-        formInline: {
-          higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
-          parentId: row?.parentId ?? 0,
-          name: row?.name ?? "",
-          principal: row?.principal ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sort: row?.sort ?? 0,
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
-        }
-      },
-      width: "40%",
-      draggable: true,
-      fullscreenIcon: true,
-      closeOnClickModal: false,
-      contentRenderer: () => h(editForm, { ref: formRef }),
-      beforeSure: (done, { options }) => {
-        const FormRef = formRef.value.getRef();
-        const curData = options.props.formInline as FormItemProps;
-        function chores() {
-          message(`您${title}了部门名称为${curData.name}的这条数据`, {
-            type: "success"
-          });
-          done(); // 关闭弹框
-          onSearch(); // 刷新表格数据
-        }
-        FormRef.validate(valid => {
-          if (valid) {
-            console.log("curData", curData);
-            // 表单规则校验通过
-            if (title === "新增") {
-              // 实际开发先调用新增接口，再进行下面操作
-              chores();
-            } else {
-              // 实际开发先调用编辑接口，再进行下面操作
-              chores();
-            }
-          }
-        });
-      }
-    });
-  }
-
   function handleDelete(row) {
     message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
     onSearch();
@@ -183,8 +134,6 @@ export function useDept() {
     onSearch,
     /** 重置 */
     resetForm,
-    /** 新增、编辑部门 */
-    openDialog,
     /** 删除部门 */
     handleDelete,
     handleSelectionChange

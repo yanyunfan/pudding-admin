@@ -73,6 +73,7 @@ class PureHttp {
           PureHttp.initConfig.beforeRequestCallback(config);
           return config;
         }
+        console.log("真实请求后台接口：" + config.url);
         /** 请求白名单，放置一些不需要token的接口（通过设置请求白名单，防止token过期后再请求造成的死循环问题） */
         const whiteList = ["/refreshToken", "/login"];
         return whiteList.some(v => config.url.indexOf(v) > -1)
@@ -133,13 +134,14 @@ class PureHttp {
           PureHttp.initConfig.beforeResponseCallback(response);
           return response.data;
         }
-        // 判断后台返回码
+
+        // 判断后台接口返回
         const { code, msg } = response.data;
-        console.log(response.data);
-        if (code !== "00000") {
-          message(msg, { type: "error" });
-          return Promise.reject(new Error(msg || "Error"));
+        if (code && code !== "00000") {
+          message("接口请求失败！原因：" + msg, { type: "error" });
+          return Promise.reject(response);
         }
+
         return response.data;
       },
       (error: PureHttpError) => {
@@ -147,6 +149,7 @@ class PureHttp {
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
+        message("系统出错！", { type: "error" });
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }
