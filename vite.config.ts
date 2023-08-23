@@ -48,6 +48,12 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           target: "http://127.0.0.1:8080",
           changeOrigin: true,
           rewrite: path => path.replace(new RegExp("^" + "/api"), "")
+        },
+        "/mock": {
+          target:
+            "http://192.168.157.1:10393/mock/975491d8-eed1-47b5-aa34-f2f925d928ba",
+          changeOrigin: true,
+          rewrite: path => path.replace(new RegExp("^" + "/mock"), "")
         }
       }
     },

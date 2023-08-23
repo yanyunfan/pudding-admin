@@ -49,10 +49,10 @@ export function useUser() {
       cellRenderer: ({ row, props }) => (
         <el-tag
           size={props.size}
-          type={row.sex === 1 ? "danger" : ""}
+          type={row.sex === 1 ? "success" : ""}
           effect="plain"
         >
-          {row.sex === 1 ? "女" : "男"}
+          {row.sex === 1 ? "男" : row.sex === 2 ? "女" : "未知"}
         </el-tag>
       )
     },
@@ -65,6 +65,7 @@ export function useUser() {
     {
       label: "头像",
       prop: "avatar",
+      slot: "image",
       minWidth: 90
     },
     {

@@ -40,8 +40,8 @@ export function getPluginsList(
     // mock支持
     viteMockServe({
       mockPath: "mock",
-      localEnabled: command === "serve",
-      prodEnabled: command !== "serve" && prodMock,
+      localEnabled: true,
+      prodEnabled: true,
       injectCode: `
           import { setupProdMockServer } from './mockProdServer';
           setupProdMockServer();
