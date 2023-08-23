@@ -5,19 +5,34 @@ export default [
   {
     url: "/api/auth/login",
     method: "post",
-    response: () => {
-      return {
-        code: "00000",
-        msg: "success",
-        data: {
-          username: "admin",
-          // 一个用户可能有多个角色
-          roles: ["admin"],
-          accessToken: "eyJhbGciOiJIUzUxMiJ9.admin",
-          refreshToken: "eyJhbGciOiJIUzUxMiJ9.adminRefresh",
-          expires: "2023/10/30 00:00:00"
-        }
-      };
+    response: ({ body }) => {
+      if (body.username === "admin") {
+        return {
+          code: "00000",
+          msg: "success",
+          data: {
+            username: "admin",
+            // 一个用户可能有多个角色
+            roles: ["admin"],
+            accessToken: "eyJhbGciOiJIUzUxMiJ9.admin",
+            refreshToken: "eyJhbGciOiJIUzUxMiJ9.adminRefresh",
+            expires: "2023/10/30 00:00:00"
+          }
+        };
+      } else {
+        return {
+          code: "00000",
+          msg: "success",
+          data: {
+            username: "common",
+            // 一个用户可能有多个角色
+            roles: ["common"],
+            accessToken: "eyJhbGciOiJIUzUxMiJ9.common",
+            refreshToken: "eyJhbGciOiJIUzUxMiJ9.commonRefresh",
+            expires: "2023/10/30 00:00:00"
+          }
+        };
+      }
     }
   },
   {

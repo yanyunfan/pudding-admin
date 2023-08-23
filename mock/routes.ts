@@ -66,6 +66,68 @@ const systemRouter = {
   ]
 };
 
+const frameRouter = {
+  path: "/iframe",
+  meta: {
+    icon: "monitor",
+    title: "外部页面",
+    rank: 10
+  },
+  children: [
+    {
+      path: "/external1",
+      name: "https://yiming_chang.gitee.io/pure-admin-doc",
+      meta: {
+        title: "pure-admin-doc",
+        roles: ["admin", "common"]
+      }
+    },
+    {
+      path: "/external2",
+      name: "https://element-plus.org/zh-CN/",
+      meta: {
+        title: "Element Plus",
+        roles: ["admin", "common"]
+      }
+    },
+    {
+      path: "/external3",
+      name: "https://cn.vuejs.org/",
+      meta: {
+        title: "Vue3",
+        roles: ["admin", "common"]
+      }
+    },
+    {
+      path: "/iframe/pure",
+      name: "FramePure",
+      meta: {
+        title: "pure-admin-doc（内嵌）",
+        frameSrc: "https://yiming_chang.gitee.io/pure-admin-doc",
+        roles: ["admin", "common"]
+      }
+    },
+    {
+      path: "/iframe/ep",
+      name: "FrameEp",
+      meta: {
+        title: "Element Plus（内嵌）",
+        frameSrc: "https://element-plus.org/zh-CN/",
+        roles: ["admin", "common"]
+      }
+    },
+    {
+      path: "/iframe/vue3",
+      name: "FrameVue",
+      meta: {
+        title: "Vue3（内嵌）",
+        frameSrc: "https://cn.vuejs.org/",
+        roles: ["admin", "common"]
+      }
+    }
+  ]
+};
+
 export default [
   {
     url: "/mock/getAsyncRoutes",
@@ -74,7 +136,7 @@ export default [
       return {
         code: "00000",
         msg: "success",
-        data: [systemRouter]
+        data: [systemRouter, frameRouter]
       };
     }
   }
