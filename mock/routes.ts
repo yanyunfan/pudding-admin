@@ -35,33 +35,6 @@ const systemRouter = {
         title: "部门管理",
         roles: ["admin"]
       }
-    },
-    {
-      path: "/system/menu/index",
-      name: "Menu",
-      meta: {
-        icon: "menu",
-        title: "菜单管理",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/system/dict/index",
-      name: "Dict",
-      meta: {
-        icon: "collection",
-        title: "字典管理",
-        roles: ["admin"]
-      }
-    },
-    {
-      path: "/system/online/index",
-      name: "Online",
-      meta: {
-        icon: "monitor",
-        title: "在线用户",
-        roles: ["admin"]
-      }
     }
   ]
 };

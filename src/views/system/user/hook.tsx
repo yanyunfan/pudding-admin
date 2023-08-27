@@ -47,11 +47,7 @@ export function useUser() {
       prop: "sex",
       minWidth: 90,
       cellRenderer: ({ row, props }) => (
-        <el-tag
-          size={props.size}
-          type={row.sex === 1 ? "success" : ""}
-          effect="plain"
-        >
+        <el-tag size={props.size} type={row.sex === 1 ? "success" : ""} effect="plain">
           {row.sex === 1 ? "男" : row.sex === 2 ? "女" : "未知"}
         </el-tag>
       )
@@ -100,8 +96,7 @@ export function useUser() {
       label: "创建时间",
       minWidth: 90,
       prop: "createTime",
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createTime }) => dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",
@@ -111,20 +106,12 @@ export function useUser() {
     }
   ];
   const buttonClass = computed(() => {
-    return [
-      "!h-[20px]",
-      "reset-margin",
-      "!text-gray-500",
-      "dark:!text-white",
-      "dark:hover:!text-primary"
-    ];
+    return ["!h-[20px]", "reset-margin", "!text-gray-500", "dark:!text-white", "dark:hover:!text-primary"];
   });
 
   function onChange({ row, index }) {
     ElMessageBox.confirm(
-      `确认要<strong>${
-        row.status === 0 ? "停用" : "启用"
-      }</strong><strong style='color:var(--el-color-primary)'>${
+      `确认要<strong>${row.status === 0 ? "停用" : "启用"}</strong><strong style='color:var(--el-color-primary)'>${
         row.username
       }</strong>用户吗?`,
       "系统提示",
@@ -137,21 +124,13 @@ export function useUser() {
       }
     )
       .then(() => {
-        switchLoadMap.value[index] = Object.assign(
-          {},
-          switchLoadMap.value[index],
-          {
-            loading: true
-          }
-        );
+        switchLoadMap.value[index] = Object.assign({}, switchLoadMap.value[index], {
+          loading: true
+        });
         setTimeout(() => {
-          switchLoadMap.value[index] = Object.assign(
-            {},
-            switchLoadMap.value[index],
-            {
-              loading: false
-            }
-          );
+          switchLoadMap.value[index] = Object.assign({}, switchLoadMap.value[index], {
+            loading: false
+          });
           message("已成功修改用户状态", {
             type: "success"
           });
@@ -182,9 +161,9 @@ export function useUser() {
     console.log("handleSelectionChange", val);
   }
 
-  async function onSearch() {
+  async function onSearch(form?: any) {
     loading.value = true;
-    const { data } = await getUserList();
+    const { data } = await getUserList(form);
     dataList.value = data.list;
     pagination.total = data.total;
     setTimeout(() => {

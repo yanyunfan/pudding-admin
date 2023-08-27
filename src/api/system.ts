@@ -22,8 +22,8 @@ type ResultDept = {
 };
 
 /** 获取用户管理列表 */
-export const getUserList = (data?: object) => {
-  return http.request<Result>("get", "/api/system/users", { data });
+export const getUserList = (params?: object) => {
+  return http.request<Result>("get", "/api/system/users", { params });
 };
 
 /** 获取角色管理列表 */

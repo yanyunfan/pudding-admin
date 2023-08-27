@@ -40,59 +40,28 @@ const {
   <div class="main">
     <tree class="w-[17%] float-left" />
     <div class="float-right w-[82%]">
-      <el-form
-        ref="formRef"
-        :inline="true"
-        :model="form"
-        class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
-      >
+      <el-form ref="formRef" :inline="true" :model="form" class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]">
         <el-form-item label="用户名称：" prop="username">
-          <el-input
-            v-model="form.username"
-            placeholder="请输入用户名称"
-            clearable
-            class="!w-[160px]"
-          />
+          <el-input v-model="form.username" placeholder="请输入用户名称" clearable class="!w-[160px]" />
         </el-form-item>
         <el-form-item label="手机号码：" prop="mobile">
-          <el-input
-            v-model="form.mobile"
-            placeholder="请输入手机号码"
-            clearable
-            class="!w-[160px]"
-          />
+          <el-input v-model="form.mobile" placeholder="请输入手机号码" clearable class="!w-[160px]" />
         </el-form-item>
         <el-form-item label="状态：" prop="status">
-          <el-select
-            v-model="form.status"
-            placeholder="请选择"
-            clearable
-            class="!w-[160px]"
-          >
+          <el-select v-model="form.status" placeholder="请选择" clearable class="!w-[160px]">
             <el-option label="已开启" value="1" />
             <el-option label="已关闭" value="0" />
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            :icon="useRenderIcon(Search)"
-            :loading="loading"
-            @click="onSearch"
-          >
-            搜索
-          </el-button>
-          <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)">
-            重置
-          </el-button>
+          <el-button type="primary" :icon="useRenderIcon(Search)" :loading="loading" @click="onSearch(form)"> 搜索 </el-button>
+          <el-button :icon="useRenderIcon(Refresh)" @click="resetForm(formRef)"> 重置 </el-button>
         </el-form-item>
       </el-form>
 
       <PureTableBar title="用户管理" :columns="columns" @refresh="onSearch">
         <template #buttons>
-          <el-button type="primary" :icon="useRenderIcon(AddFill)">
-            新增用户
-          </el-button>
+          <el-button type="primary" :icon="useRenderIcon(AddFill)"> 新增用户 </el-button>
         </template>
         <template v-slot="{ size, dynamicColumns }">
           <pure-table
@@ -112,8 +81,7 @@ const {
             }"
             @selection-change="handleSelectionChange"
             @page-size-change="handleSizeChange"
-            @page-current-change="handleCurrentChange"
-          >
+            @page-current-change="handleCurrentChange">
             <template #image="{ row, index }">
               <el-image
                 preview-teleported
@@ -122,8 +90,7 @@ const {
                 :preview-src-list="dataList.map(v => v.avatar)"
                 :initial-index="index"
                 fit="cover"
-                class="w-[80px] h-[80px]"
-              />
+                class="w-[80px] h-[80px]" />
             </template>
 
             <template #operation="{ row }">
@@ -133,8 +100,7 @@ const {
                 type="primary"
                 :size="size"
                 @click="handleUpdate(row)"
-                :icon="useRenderIcon(EditPen)"
-              >
+                :icon="useRenderIcon(EditPen)">
                 修改
               </el-button>
               <el-popconfirm title="是否确认删除?">
@@ -145,8 +111,7 @@ const {
                     type="primary"
                     :size="size"
                     :icon="useRenderIcon(Delete)"
-                    @click="handleDelete(row)"
-                  >
+                    @click="handleDelete(row)">
                     删除
                   </el-button>
                 </template>
@@ -158,29 +123,16 @@ const {
                   type="primary"
                   :size="size"
                   @click="handleUpdate(row)"
-                  :icon="useRenderIcon(More)"
-                />
+                  :icon="useRenderIcon(More)" />
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item>
-                      <el-button
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Password)"
-                      >
+                      <el-button :class="buttonClass" link type="primary" :size="size" :icon="useRenderIcon(Password)">
                         重置密码
                       </el-button>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                      <el-button
-                        :class="buttonClass"
-                        link
-                        type="primary"
-                        :size="size"
-                        :icon="useRenderIcon(Role)"
-                      >
+                      <el-button :class="buttonClass" link type="primary" :size="size" :icon="useRenderIcon(Role)">
                         分配角色
                       </el-button>
                     </el-dropdown-item>
