@@ -22,26 +22,20 @@ export function useDept() {
 
   const columns: TableColumnList = [
     {
-      label: "id",
-      prop: "id",
-      width: 70,
-      align: "left"
-    },
-    {
       label: "菜单名称",
       prop: "name",
       width: 180,
       align: "left"
     },
     {
-      label: "父菜单id",
-      prop: "parentId",
-      minWidth: 70
-    },
-    {
       label: "菜单类型",
       prop: "type",
-      minWidth: 70
+      minWidth: 70,
+      cellRenderer: ({ row, props }) => (
+        <el-tag size={props.size} type={row.type === "1" ? "success" : ""} effect="plain">
+          {row.type === "1" ? "目录" : row.type === "2" ? "菜单" : "按钮"}
+        </el-tag>
+      )
     },
     {
       label: "路由路径",
@@ -87,8 +81,7 @@ export function useDept() {
       label: "创建时间",
       minWidth: 200,
       prop: "createTime",
-      formatter: ({ createTime }) =>
-        dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      formatter: ({ createTime }) => dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
       label: "操作",

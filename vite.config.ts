@@ -27,8 +27,7 @@ const __APP_INFO__ = {
 };
 
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
-  const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH } =
-    warpperEnv(loadEnv(mode, root));
+  const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH } = warpperEnv(loadEnv(mode, root));
   return {
     base: VITE_PUBLIC_PATH,
     root,
@@ -50,8 +49,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           rewrite: path => path.replace(new RegExp("^" + "/api"), "")
         },
         "/mock": {
-          target:
-            "http://192.168.157.1:10393/mock/975491d8-eed1-47b5-aa34-f2f925d928ba",
+          target: "http://192.168.134.1:10393/mock/975491d8-eed1-47b5-aa34-f2f925d928ba",
           changeOrigin: true,
           rewrite: path => path.replace(new RegExp("^" + "/mock"), "")
         }
