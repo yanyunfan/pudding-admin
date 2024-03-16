@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { handleTree } from "@/utils/tree";
-import { getDeptList } from "@/api/system";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
-import { ref, computed, watch, onMounted, getCurrentInstance } from "vue";
+import { ref, computed, watch, getCurrentInstance } from "vue";
 
 import Dept from "@iconify-icons/ri/git-branch-line";
-import Reset from "@iconify-icons/ri/restart-line";
-import Search from "@iconify-icons/ep/search";
+// import Reset from "@iconify-icons/ri/restart-line";
 import More2Fill from "@iconify-icons/ri/more-2-fill";
 import OfficeBuilding from "@iconify-icons/ep/office-building";
 import LocationCompany from "@iconify-icons/ep/add-location";
@@ -20,8 +17,14 @@ interface Tree {
   children?: Tree[];
 }
 
+const props = defineProps({
+  treeLoading: Boolean,
+  treeData: Array
+});
+
+const emit = defineEmits(["tree-select"]);
+
 const treeRef = ref();
-const treeData = ref([]);
 const isExpand = ref(true);
 const searchValue = ref("");
 const highlightMap = ref({});
@@ -59,6 +62,12 @@ function nodeClick(value) {
       v.highlight = false;
     }
   });
+  emit(
+    "tree-select",
+    highlightMap.value[nodeId]?.highlight
+      ? Object.assign({ ...value, selected: true })
+      : Object.assign({ ...value, selected: false })
+  );
 }
 
 function toggleRowExpansionAll(status) {
@@ -69,8 +78,8 @@ function toggleRowExpansionAll(status) {
   }
 }
 
-/** 重置状态（选中状态、搜索框值、树初始化） */
-function onReset() {
+/** 重置部门树状态（选中状态、搜索框值、树初始化） */
+function onTreeReset() {
   highlightMap.value = {};
   searchValue.value = "";
   toggleRowExpansionAll(true);
@@ -80,25 +89,20 @@ watch(searchValue, val => {
   treeRef.value!.filter(val);
 });
 
-onMounted(async () => {
-  const { data } = await getDeptList();
-  treeData.value = handleTree(data);
-});
+defineExpose({ onTreeReset });
 </script>
 
 <template>
   <div
+    v-loading="props.treeLoading"
     class="h-full bg-bg_color overflow-auto"
-    :style="{ minHeight: `calc(100vh - 133px)` }"
+    :style="{ minHeight: `calc(100vh - 145px)` }"
   >
     <div class="flex items-center h-[34px]">
-      <p class="flex-1 ml-2 font-bold text-base truncate" title="部门列表">
-        部门列表
-      </p>
       <el-input
-        style="flex: 2"
-        size="small"
         v-model="searchValue"
+        class="ml-2"
+        size="small"
         placeholder="请输入部门名称"
         clearable
       >
@@ -106,7 +110,7 @@ onMounted(async () => {
           <el-icon class="el-input__icon">
             <IconifyIconOffline
               v-show="searchValue.length === 0"
-              :icon="Search"
+              icon="ri:search-line"
             />
           </el-icon>
         </template>
@@ -130,17 +134,17 @@ onMounted(async () => {
                 {{ isExpand ? "折叠全部" : "展开全部" }}
               </el-button>
             </el-dropdown-item>
-            <el-dropdown-item>
+            <!-- <el-dropdown-item>
               <el-button
                 :class="buttonClass"
                 link
                 type="primary"
                 :icon="useRenderIcon(Reset)"
-                @click="onReset"
+                @click="onTreeReset"
               >
                 重置状态
               </el-button>
-            </el-dropdown-item>
+            </el-dropdown-item> -->
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -148,7 +152,7 @@ onMounted(async () => {
     <el-divider />
     <el-tree
       ref="treeRef"
-      :data="treeData"
+      :data="props.treeData"
       node-key="id"
       size="small"
       :props="defaultProps"
@@ -166,12 +170,16 @@ onMounted(async () => {
             'flex',
             'items-center',
             'select-none',
+            'hover:text-primary',
             searchValue.trim().length > 0 &&
               node.label.includes(searchValue) &&
               'text-red-500',
             highlightMap[node.id]?.highlight ? 'dark:text-primary' : ''
           ]"
           :style="{
+            color: highlightMap[node.id]?.highlight
+              ? 'var(--el-color-primary)'
+              : '',
             background: highlightMap[node.id]?.highlight
               ? 'var(--el-color-primary-light-7)'
               : 'transparent'
@@ -182,8 +190,8 @@ onMounted(async () => {
               data.type === 1
                 ? OfficeBuilding
                 : data.type === 2
-                ? LocationCompany
-                : Dept
+                  ? LocationCompany
+                  : Dept
             "
           />
           {{ node.label }}
@@ -196,5 +204,9 @@ onMounted(async () => {
 <style lang="scss" scoped>
 :deep(.el-divider) {
   margin: 0;
+}
+
+:deep(.el-tree) {
+  --el-tree-node-hover-bg-color: transparent;
 }
 </style>

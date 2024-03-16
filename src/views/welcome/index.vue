@@ -5,7 +5,5 @@ defineOptions({
 </script>
 
 <template>
-  <div>
-    <img src="@/assets/welcome.gif" alt="My Image" />
-  </div>
+  <h1>Pure-Admin-Thin（非国际化版本）</h1>
 </template>

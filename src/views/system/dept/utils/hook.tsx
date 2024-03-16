@@ -6,7 +6,7 @@ import { getDeptList } from "@/api/system";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
-import { type FormItemProps } from "../utils/types";
+import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 
 export function useDept() {
@@ -50,9 +50,14 @@ export function useDept() {
         dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
     },
     {
+      label: "备注",
+      prop: "remark",
+      minWidth: 320
+    },
+    {
       label: "操作",
       fixed: "right",
-      width: 160,
+      width: 210,
       slot: "operation"
     }
   ];
@@ -136,7 +141,7 @@ export function useDept() {
               // 实际开发先调用新增接口，再进行下面操作
               chores();
             } else {
-              // 实际开发先调用编辑接口，再进行下面操作
+              // 实际开发先调用修改接口，再进行下面操作
               chores();
             }
           }
@@ -163,7 +168,7 @@ export function useDept() {
     onSearch,
     /** 重置 */
     resetForm,
-    /** 新增、编辑部门 */
+    /** 新增、修改部门 */
     openDialog,
     /** 删除部门 */
     handleDelete,

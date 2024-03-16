@@ -1,92 +1,94 @@
-import dayjs from "dayjs";
 import editForm from "../form.vue";
 import { handleTree } from "@/utils/tree";
 import { message } from "@/utils/message";
 import { getMenuList } from "@/api/system";
-import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
-import { type FormItemProps } from "../utils/types";
+import type { FormItemProps } from "../utils/types";
 import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
-export function useDept() {
+export function useMenu() {
   const form = reactive({
-    name: "",
-    status: null
+    title: ""
   });
 
   const formRef = ref();
   const dataList = ref([]);
   const loading = ref(true);
-  const { tagStyle } = usePublicHooks();
+
+  const getMenuType = (type, text = false) => {
+    switch (type) {
+      case 0:
+        return text ? "菜单" : "primary";
+      case 1:
+        return text ? "iframe" : "warning";
+      case 2:
+        return text ? "外链" : "danger";
+      case 3:
+        return text ? "按钮" : "info";
+    }
+  };
 
   const columns: TableColumnList = [
     {
       label: "菜单名称",
-      prop: "name",
-      width: 180,
-      align: "left"
+      prop: "title",
+      align: "left",
+      cellRenderer: ({ row }) => (
+        <>
+          <span class="inline-block mr-1">
+            {h(useRenderIcon(row.icon), {
+              style: { paddingTop: "1px" }
+            })}
+          </span>
+          <span>{row.title}</span>
+        </>
+      )
     },
     {
       label: "菜单类型",
-      prop: "type",
-      minWidth: 70,
+      prop: "menuType",
+      width: 100,
       cellRenderer: ({ row, props }) => (
-        <el-tag size={props.size} type={row.type === "1" ? "success" : ""} effect="plain">
-          {row.type === "1" ? "目录" : row.type === "2" ? "菜单" : "按钮"}
+        <el-tag
+          size={props.size}
+          type={getMenuType(row.menuType)}
+          effect="plain"
+        >
+          {getMenuType(row.menuType, true)}
         </el-tag>
       )
     },
     {
       label: "路由路径",
-      prop: "path",
-      minWidth: 70
+      prop: "path"
     },
     {
       label: "组件路径",
       prop: "component",
-      minWidth: 70
+      formatter: ({ path, component }) =>
+        isAllEmpty(component) ? path : component
     },
     {
-      label: "菜单图标",
-      prop: "icon",
-      minWidth: 70
-    },
-    {
-      label: "按钮权限",
-      prop: "perm",
-      minWidth: 70
-    },
-    {
-      label: "是否外链",
-      prop: "isFrame",
-      minWidth: 70
+      label: "权限标识",
+      prop: "auths"
     },
     {
       label: "排序",
-      prop: "sort",
-      minWidth: 70
+      prop: "rank",
+      width: 100
     },
     {
-      label: "状态",
-      prop: "status",
-      minWidth: 100,
-      cellRenderer: ({ row, props }) => (
-        <el-tag size={props.size} style={tagStyle.value(row.status)}>
-          {row.status === 1 ? "启用" : "停用"}
-        </el-tag>
-      )
-    },
-    {
-      label: "创建时间",
-      minWidth: 200,
-      prop: "createTime",
-      formatter: ({ createTime }) => dayjs(createTime).format("YYYY-MM-DD HH:mm:ss")
+      label: "隐藏",
+      prop: "showLink",
+      formatter: ({ showLink }) => (showLink ? "否" : "是"),
+      width: 100
     },
     {
       label: "操作",
       fixed: "right",
-      width: 160,
+      width: 210,
       slot: "operation"
     }
   ];
@@ -105,13 +107,9 @@ export function useDept() {
     loading.value = true;
     const { data } = await getMenuList(); // 这里是返回一维数组结构，前端自行处理成树结构，返回格式要求：唯一id加父节点parentId，parentId取父节点id
     let newData = data;
-    if (!isAllEmpty(form.name)) {
-      // 前端搜索部门名称
-      newData = newData.filter(item => item.name.includes(form.name));
-    }
-    if (!isAllEmpty(form.status)) {
-      // 前端搜索状态
-      newData = newData.filter(item => item.status === form.status);
+    if (!isAllEmpty(form.title)) {
+      // 前端搜索菜单名称
+      newData = newData.filter(item => item.title.includes(form.title));
     }
     dataList.value = handleTree(newData); // 处理成树结构
     setTimeout(() => {
@@ -119,13 +117,11 @@ export function useDept() {
     }, 500);
   }
 
-  function formatHigherDeptOptions(treeList) {
-    // 根据返回数据的status字段值判断追加是否禁用disabled字段，返回处理后的树结构，用于上级部门级联选择器的展示（实际开发中也是如此，不可能前端需要的每个字段后端都会返回，这时需要前端自行根据后端返回的某些字段做逻辑处理）
+  function formatHigherMenuOptions(treeList) {
     if (!treeList || !treeList.length) return;
     const newTreeList = [];
     for (let i = 0; i < treeList.length; i++) {
-      treeList[i].disabled = treeList[i].status === 0 ? true : false;
-      formatHigherDeptOptions(treeList[i].children);
+      formatHigherMenuOptions(treeList[i].children);
       newTreeList.push(treeList[i]);
     }
     return newTreeList;
@@ -133,21 +129,33 @@ export function useDept() {
 
   function openDialog(title = "新增", row?: FormItemProps) {
     addDialog({
-      title: `${title}部门`,
+      title: `${title}菜单`,
       props: {
         formInline: {
-          higherDeptOptions: formatHigherDeptOptions(cloneDeep(dataList.value)),
+          menuType: row?.menuType ?? 0,
+          higherMenuOptions: formatHigherMenuOptions(cloneDeep(dataList.value)),
           parentId: row?.parentId ?? 0,
+          title: row?.title ?? "",
           name: row?.name ?? "",
-          principal: row?.principal ?? "",
-          phone: row?.phone ?? "",
-          email: row?.email ?? "",
-          sort: row?.sort ?? 0,
-          status: row?.status ?? 1,
-          remark: row?.remark ?? ""
+          path: row?.path ?? "",
+          component: row?.component ?? "",
+          rank: row?.rank ?? 99,
+          redirect: row?.redirect ?? "",
+          icon: row?.icon ?? "",
+          extraIcon: row?.extraIcon ?? "",
+          enterTransition: row?.enterTransition ?? "",
+          leaveTransition: row?.leaveTransition ?? "",
+          activePath: row?.activePath ?? "",
+          auths: row?.auths ?? "",
+          frameSrc: row?.frameSrc ?? "",
+          frameLoading: row?.frameLoading ?? true,
+          keepAlive: row?.keepAlive ?? false,
+          hiddenTag: row?.hiddenTag ?? false,
+          showLink: row?.showLink ?? true,
+          showParent: row?.showParent ?? false
         }
       },
-      width: "40%",
+      width: "45%",
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -156,7 +164,7 @@ export function useDept() {
         const FormRef = formRef.value.getRef();
         const curData = options.props.formInline as FormItemProps;
         function chores() {
-          message(`您${title}了部门名称为${curData.name}的这条数据`, {
+          message(`您${title}了菜单名称为${curData.title}的这条数据`, {
             type: "success"
           });
           done(); // 关闭弹框
@@ -170,7 +178,7 @@ export function useDept() {
               // 实际开发先调用新增接口，再进行下面操作
               chores();
             } else {
-              // 实际开发先调用编辑接口，再进行下面操作
+              // 实际开发先调用修改接口，再进行下面操作
               chores();
             }
           }
@@ -180,7 +188,9 @@ export function useDept() {
   }
 
   function handleDelete(row) {
-    message(`您删除了部门名称为${row.name}的这条数据`, { type: "success" });
+    message(`您删除了菜单名称为${row.title}的这条数据`, {
+      type: "success"
+    });
     onSearch();
   }
 
@@ -197,9 +207,9 @@ export function useDept() {
     onSearch,
     /** 重置 */
     resetForm,
-    /** 新增、编辑部门 */
+    /** 新增、修改菜单 */
     openDialog,
-    /** 删除部门 */
+    /** 删除菜单 */
     handleDelete,
     handleSelectionChange
   };

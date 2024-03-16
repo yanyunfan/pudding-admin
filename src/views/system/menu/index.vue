@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useDept } from "./utils/hook";
+import { useMenu } from "./utils/hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
 import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "Dept"
+  name: "SystemMenu"
 });
 
 const formRef = ref();
@@ -26,7 +25,7 @@ const {
   openDialog,
   handleDelete,
   handleSelectionChange
-} = useDept();
+} = useMenu();
 </script>
 
 <template>
@@ -37,29 +36,18 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px]"
     >
-      <el-form-item label="部门名称：" prop="name">
+      <el-form-item label="菜单名称：" prop="title">
         <el-input
-          v-model="form.name"
-          placeholder="请输入部门名称"
-          clearable
-          class="!w-[200px]"
-        />
-      </el-form-item>
-      <el-form-item label="状态：" prop="status">
-        <el-select
-          v-model="form.status"
-          placeholder="请选择状态"
+          v-model="form.title"
+          placeholder="请输入菜单名称"
           clearable
           class="!w-[180px]"
-        >
-          <el-option label="启用" :value="1" />
-          <el-option label="停用" :value="0" />
-        </el-select>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
-          :icon="useRenderIcon(Search)"
+          :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
           @click="onSearch"
         >
@@ -72,8 +60,9 @@ const {
     </el-form>
 
     <PureTableBar
-      title="部门列表（仅演示，操作后不生效）"
+      title="菜单管理（初版，持续完善中）"
       :columns="columns"
+      :isExpandAll="false"
       :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
     >
@@ -83,26 +72,24 @@ const {
           :icon="useRenderIcon(AddFill)"
           @click="openDialog()"
         >
-          新增部门
+          新增菜单
         </el-button>
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
           ref="tableRef"
-          border
           adaptive
-          :adaptiveConfig="{ offsetBottom: 32 }"
+          :adaptiveConfig="{ offsetBottom: 45 }"
           align-whole="center"
           row-key="id"
           showOverflowTooltip
           table-layout="auto"
-          default-expand-all
           :loading="loading"
           :size="size"
           :data="dataList"
           :columns="dynamicColumns"
           :header-cell-style="{
-            background: 'var(--el-table-row-hover-bg-color)',
+            background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
           @selection-change="handleSelectionChange"
@@ -114,12 +101,23 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="openDialog('编辑', row)"
+              @click="openDialog('修改', row)"
             >
-              编辑
+              修改
+            </el-button>
+            <el-button
+              v-show="row.menuType !== 3"
+              class="reset-margin"
+              link
+              type="primary"
+              :size="size"
+              :icon="useRenderIcon(AddFill)"
+              @click="openDialog('新增', { parentId: row.id } as any)"
+            >
+              新增
             </el-button>
             <el-popconfirm
-              :title="`是否确认删除部门名称为${row.name}的这条数据`"
+              :title="`是否确认删除菜单名称为${row.title}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
               @confirm="handleDelete(row)"
             >
               <template #reference>
@@ -142,6 +140,14 @@ const {
 </template>
 
 <style lang="scss" scoped>
+:deep(.el-table__inner-wrapper::before) {
+  height: 0;
+}
+
+.main-content {
+  margin: 24px 24px 0 !important;
+}
+
 .search-form {
   :deep(.el-form-item) {
     margin-bottom: 12px;

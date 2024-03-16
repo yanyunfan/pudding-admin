@@ -1,8 +1,12 @@
 import { http } from "@/utils/http";
 
 type Result = {
-  code: string;
-  msg: string;
+  success: boolean;
+  data?: Array<any>;
+};
+
+type ResultTable = {
+  success: boolean;
   data?: {
     /** 列表数据 */
     list: Array<any>;
@@ -15,38 +19,32 @@ type Result = {
   };
 };
 
-type ResultDept = {
-  code: string;
-  msg: string;
-  data?: Array<any>;
+/** 获取用户管理列表 */
+export const getUserList = (data?: object) => {
+  return http.request<ResultTable>("post", "/api/system/users", { data });
 };
 
-/** 获取用户管理列表 */
-export const getUserList = (params?: object) => {
-  return http.request<Result>("get", "/api/system/users", { params });
+/** 用户管理-获取所有角色列表 */
+export const getAllRoleList = () => {
+  return http.request<Result>("get", "/list-all-role");
+};
+
+/** 用户管理-根据userId，获取对应角色id列表（userId：用户id） */
+export const getRoleIds = (data?: object) => {
+  return http.request<Result>("post", "/list-role-ids", { data });
 };
 
 /** 获取角色管理列表 */
 export const getRoleList = (data?: object) => {
-  return http.request<Result>("get", "/api/system/roles", { data });
+  return http.request<ResultTable>("post", "/api/system/roles", { data });
 };
 
 /** 获取部门管理列表 */
 export const getDeptList = (data?: object) => {
-  return http.request<ResultDept>("get", "/api/system/depts", { data });
+  return http.request<Result>("post", "/api/system/depts", { data });
 };
 
-/** 获取菜单列表 */
+/** 获取菜单管理列表 */
 export const getMenuList = (data?: object) => {
-  return http.request<ResultDept>("get", "/api/system/menus", { data });
-};
-
-/** 获取字典列表 */
-export const getDictList = (data?: object) => {
-  return http.request<ResultDept>("get", "/api/system/dicts/types", { data });
-};
-
-/** 获取在线用户列表 */
-export const getOnlineUserList = (data?: object) => {
-  return http.request<ResultDept>("get", "/api/system/users/online", { data });
+  return http.request<Result>("post", "/api/system/menus", { data });
 };

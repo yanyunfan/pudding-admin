@@ -1,8 +1,7 @@
 import { http } from "@/utils/http";
 
 export type UserResult = {
-  code: string;
-  msg: string;
+  success: boolean;
   data: {
     /** 用户名 */
     username: string;
@@ -18,8 +17,7 @@ export type UserResult = {
 };
 
 export type RefreshTokenResult = {
-  code: string;
-  msg: string;
+  success: boolean;
   data: {
     /** `token` */
     accessToken: string;
@@ -32,19 +30,10 @@ export type RefreshTokenResult = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.request<UserResult>(
-    "post",
-    "/api/auth/login",
-    { data },
-    {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      }
-    }
-  );
+  return http.request<UserResult>("post", "/api/auth/login", { data });
 };
 
 /** 刷新token */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/refreshToken", { data });
+  return http.request<RefreshTokenResult>("post", "/refresh-token", { data });
 };

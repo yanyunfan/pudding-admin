@@ -10,9 +10,12 @@ const include = [
   "dayjs",
   "axios",
   "pinia",
+  "vue-types",
   "js-cookie",
-  "sortablejs",
+  "vue-tippy",
+  "cropperjs",
   "pinyin-pro",
+  "sortablejs",
   "@vueuse/core",
   "@pureadmin/utils",
   "responsive-storage"

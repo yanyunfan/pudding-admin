@@ -41,8 +41,8 @@ defineExpose({ getRef });
       <re-col>
         <el-form-item label="上级部门">
           <el-cascader
-            class="w-full"
             v-model="newFormInline.parentId"
+            class="w-full"
             :options="newFormInline.higherDeptOptions"
             :props="{
               value: 'id',
@@ -104,6 +104,7 @@ defineExpose({ getRef });
         <el-form-item label="排序">
           <el-input-number
             v-model="newFormInline.sort"
+            class="!w-full"
             :min="0"
             :max="9999"
             controls-position="right"

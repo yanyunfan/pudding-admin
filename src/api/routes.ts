@@ -1,11 +1,10 @@
 import { http } from "@/utils/http";
 
 type Result = {
-  code: string;
-  msg: string;
+  success: boolean;
   data: Array<any>;
 };
 
 export const getAsyncRoutes = () => {
-  return http.request<Result>("get", "/mock/getAsyncRoutes");
+  return http.request<Result>("get", "/get-async-routes");
 };

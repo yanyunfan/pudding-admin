@@ -5,8 +5,8 @@ import { getRoleList } from "@/api/system";
 import { ElMessageBox } from "element-plus";
 import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
-import { type FormItemProps } from "../utils/types";
-import { type PaginationProps } from "@pureadmin/table";
+import type { FormItemProps } from "../utils/types";
+import type { PaginationProps } from "@pureadmin/table";
 import { reactive, ref, onMounted, h, toRaw } from "vue";
 
 export function useRole() {
@@ -43,11 +43,6 @@ export function useRole() {
       minWidth: 150
     },
     {
-      label: "排序",
-      prop: "sort",
-      minWidth: 150
-    },
-    {
       label: "状态",
       minWidth: 130,
       cellRenderer: scope => (
@@ -64,6 +59,11 @@ export function useRole() {
           onChange={() => onChange(scope as any)}
         />
       )
+    },
+    {
+      label: "备注",
+      prop: "remark",
+      minWidth: 150
     },
     {
       label: "创建时间",
@@ -151,7 +151,6 @@ export function useRole() {
   async function onSearch() {
     loading.value = true;
     const { data } = await getRoleList(toRaw(form));
-    console.log("data", data);
     dataList.value = data.list;
     pagination.total = data.total;
     pagination.pageSize = data.pageSize;
@@ -201,7 +200,7 @@ export function useRole() {
               // 实际开发先调用新增接口，再进行下面操作
               chores();
             } else {
-              // 实际开发先调用编辑接口，再进行下面操作
+              // 实际开发先调用修改接口，再进行下面操作
               chores();
             }
           }

@@ -8,13 +8,12 @@ import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 // import More from "@iconify-icons/ep/more-filled";
 import Delete from "@iconify-icons/ep/delete";
 import EditPen from "@iconify-icons/ep/edit-pen";
-import Search from "@iconify-icons/ep/search";
 import Refresh from "@iconify-icons/ep/refresh";
 import Menu from "@iconify-icons/ep/menu";
 import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "Role"
+  name: "SystemRole"
 });
 
 const formRef = ref();
@@ -50,7 +49,7 @@ const {
           v-model="form.name"
           placeholder="请输入角色名称"
           clearable
-          class="!w-[200px]"
+          class="!w-[180px]"
         />
       </el-form-item>
       <el-form-item label="角色标识：" prop="code">
@@ -75,7 +74,7 @@ const {
       <el-form-item>
         <el-button
           type="primary"
-          :icon="useRenderIcon(Search)"
+          :icon="useRenderIcon('ri:search-line')"
           :loading="loading"
           @click="onSearch"
         >
@@ -88,7 +87,7 @@ const {
     </el-form>
 
     <PureTableBar
-      title="角色列表（仅演示，操作后不生效）"
+      title="角色管理（仅演示，操作后不生效）"
       :columns="columns"
       @refresh="onSearch"
     >
@@ -103,19 +102,19 @@ const {
       </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
-          border
           align-whole="center"
           showOverflowTooltip
           table-layout="auto"
           :loading="loading"
           :size="size"
           adaptive
+          :adaptiveConfig="{ offsetBottom: 108 }"
           :data="dataList"
           :columns="dynamicColumns"
           :pagination="pagination"
           :paginationSmall="size === 'small' ? true : false"
           :header-cell-style="{
-            background: 'var(--el-table-row-hover-bg-color)',
+            background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
           @selection-change="handleSelectionChange"
@@ -129,7 +128,7 @@ const {
               type="primary"
               :size="size"
               :icon="useRenderIcon(EditPen)"
-              @click="openDialog('编辑', row)"
+              @click="openDialog('修改', row)"
             >
               修改
             </el-button>
@@ -206,6 +205,10 @@ const {
 <style scoped lang="scss">
 :deep(.el-dropdown-menu__item i) {
   margin: 0;
+}
+
+.main-content {
+  margin: 24px 24px 0 !important;
 }
 
 .search-form {
