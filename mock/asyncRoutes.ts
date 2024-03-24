@@ -7,7 +7,7 @@ import { defineFakeRoute } from "vite-plugin-fake-server/client";
  * common：普通角色
  */
 
-const systemRouter = {
+const systemManagementRouter = {
   path: "/system",
   meta: {
     icon: "ri:settings-3-line",
@@ -48,6 +48,57 @@ const systemRouter = {
       meta: {
         icon: "ri:git-branch-line",
         title: "部门管理",
+        roles: ["admin"]
+      }
+    }
+  ]
+};
+
+const systemMonitorRouter = {
+  path: "/monitor",
+  meta: {
+    icon: "ep:monitor",
+    title: "系统监控",
+    rank: 10
+  },
+  children: [
+    {
+      path: "/monitor/online-user",
+      component: "monitor/online/index",
+      name: "OnlineUser",
+      meta: {
+        icon: "ri:user-voice-line",
+        title: "在线用户",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/login-logs",
+      component: "monitor/logs/login/index",
+      name: "LoginLog",
+      meta: {
+        icon: "ri:window-line",
+        title: "登录日志",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/operation-logs",
+      component: "monitor/logs/operation/index",
+      name: "OperationLog",
+      meta: {
+        icon: "ri:history-fill",
+        title: "操作日志",
+        roles: ["admin"]
+      }
+    },
+    {
+      path: "/monitor/system-logs",
+      component: "monitor/logs/system/index",
+      name: "SystemLog",
+      meta: {
+        icon: "ri:file-search-line",
+        title: "系统日志",
         roles: ["admin"]
       }
     }
@@ -139,7 +190,12 @@ export default defineFakeRoute([
       return {
         code: "00000",
         msg: "success",
-        data: [systemRouter, permissionRouter, frameRouter]
+        data: [
+          systemManagementRouter,
+          systemMonitorRouter,
+          permissionRouter,
+          frameRouter
+        ]
       };
     }
   }

@@ -5,8 +5,8 @@ import { getMenuList } from "@/api/system";
 import { addDialog } from "@/components/ReDialog";
 import { reactive, ref, onMounted, h } from "vue";
 import type { FormItemProps } from "../utils/types";
-import { cloneDeep, isAllEmpty } from "@pureadmin/utils";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { cloneDeep, isAllEmpty, deviceDetection } from "@pureadmin/utils";
 
 export function useMenu() {
   const form = reactive({
@@ -157,6 +157,7 @@ export function useMenu() {
       },
       width: "45%",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),

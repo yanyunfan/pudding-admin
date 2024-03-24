@@ -1,31 +1,30 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useMenu } from "./utils/hook";
+import { useRole } from "./hook";
 import { PureTableBar } from "@/components/RePureTableBar";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 
-import Delete from "@iconify-icons/ep/delete";
-import EditPen from "@iconify-icons/ep/edit-pen";
+import Plane from "@iconify-icons/ri/plane-line";
 import Refresh from "@iconify-icons/ep/refresh";
-import AddFill from "@iconify-icons/ri/add-circle-line";
 
 defineOptions({
-  name: "SystemMenu"
+  name: "OnlineUser"
 });
 
 const formRef = ref();
-const tableRef = ref();
 const {
   form,
   loading,
   columns,
   dataList,
+  pagination,
   onSearch,
   resetForm,
-  openDialog,
-  handleDelete,
+  handleOffline,
+  handleSizeChange,
+  handleCurrentChange,
   handleSelectionChange
-} = useMenu();
+} = useRole();
 </script>
 
 <template>
@@ -36,10 +35,10 @@ const {
       :model="form"
       class="search-form bg-bg_color w-[99/100] pl-8 pt-[12px] overflow-auto"
     >
-      <el-form-item label="菜单名称：" prop="title">
+      <el-form-item label="用户名" prop="username">
         <el-input
-          v-model="form.title"
-          placeholder="请输入菜单名称"
+          v-model="form.username"
+          placeholder="请输入用户名"
           clearable
           class="!w-[180px]"
         />
@@ -60,65 +59,35 @@ const {
     </el-form>
 
     <PureTableBar
-      title="菜单管理（初版，持续完善中）"
+      title="在线用户（仅演示，操作后不生效）"
       :columns="columns"
-      :isExpandAll="false"
-      :tableRef="tableRef?.getTableRef()"
       @refresh="onSearch"
     >
-      <template #buttons>
-        <el-button
-          type="primary"
-          :icon="useRenderIcon(AddFill)"
-          @click="openDialog()"
-        >
-          新增菜单
-        </el-button>
-      </template>
       <template v-slot="{ size, dynamicColumns }">
         <pure-table
-          ref="tableRef"
-          adaptive
-          :adaptiveConfig="{ offsetBottom: 45 }"
           align-whole="center"
-          row-key="id"
           showOverflowTooltip
           table-layout="auto"
           :loading="loading"
           :size="size"
+          adaptive
+          :adaptiveConfig="{ offsetBottom: 108 }"
           :data="dataList"
           :columns="dynamicColumns"
+          :pagination="pagination"
+          :paginationSmall="size === 'small' ? true : false"
           :header-cell-style="{
             background: 'var(--el-fill-color-light)',
             color: 'var(--el-text-color-primary)'
           }"
           @selection-change="handleSelectionChange"
+          @page-size-change="handleSizeChange"
+          @page-current-change="handleCurrentChange"
         >
           <template #operation="{ row }">
-            <el-button
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(EditPen)"
-              @click="openDialog('修改', row)"
-            >
-              修改
-            </el-button>
-            <el-button
-              v-show="row.menuType !== 3"
-              class="reset-margin"
-              link
-              type="primary"
-              :size="size"
-              :icon="useRenderIcon(AddFill)"
-              @click="openDialog('新增', { parentId: row.id } as any)"
-            >
-              新增
-            </el-button>
             <el-popconfirm
-              :title="`是否确认删除菜单名称为${row.title}的这条数据${row?.children?.length > 0 ? '。注意下级菜单也会一并删除，请谨慎操作' : ''}`"
-              @confirm="handleDelete(row)"
+              :title="`是否强制下线${row.username}`"
+              @confirm="handleOffline(row)"
             >
               <template #reference>
                 <el-button
@@ -126,9 +95,9 @@ const {
                   link
                   type="primary"
                   :size="size"
-                  :icon="useRenderIcon(Delete)"
+                  :icon="useRenderIcon(Plane)"
                 >
-                  删除
+                  强退
                 </el-button>
               </template>
             </el-popconfirm>
@@ -139,9 +108,9 @@ const {
   </div>
 </template>
 
-<style lang="scss" scoped>
-:deep(.el-table__inner-wrapper::before) {
-  height: 0;
+<style scoped lang="scss">
+:deep(.el-dropdown-menu__item i) {
+  margin: 0;
 }
 
 .main-content {

@@ -10,7 +10,12 @@ import { usePublicHooks } from "../../hooks";
 import { addDialog } from "@/components/ReDialog";
 import type { PaginationProps } from "@pureadmin/table";
 import type { FormItemProps, RoleFormItemProps } from "../utils/types";
-import { hideTextAtIndex, getKeyList, isAllEmpty } from "@pureadmin/utils";
+import {
+  getKeyList,
+  isAllEmpty,
+  hideTextAtIndex,
+  deviceDetection
+} from "@pureadmin/utils";
 import {
   getRoleIds,
   getDeptList,
@@ -261,6 +266,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       type: "success"
     });
     tableRef.value.getTableRef().clearSelection();
+    onSearch();
   }
 
   async function onSearch() {
@@ -321,6 +327,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       },
       width: "46%",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(editForm, { ref: formRef }),
@@ -359,6 +366,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       width: "40%",
       draggable: true,
       closeOnClickModal: false,
+      fullscreen: deviceDetection(),
       contentRenderer: () =>
         h(croppingUpload, {
           ref: cropRef,
@@ -388,6 +396,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       width: "30%",
       draggable: true,
       closeOnClickModal: false,
+      fullscreen: deviceDetection(),
       contentRenderer: () => (
         <>
           <ElForm ref={ruleFormRef} model={pwdForm}>
@@ -470,6 +479,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
       },
       width: "400px",
       draggable: true,
+      fullscreen: deviceDetection(),
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(roleForm),
@@ -506,6 +516,7 @@ export function useUser(tableRef: Ref, treeRef: Ref) {
     selectedNum,
     pagination,
     buttonClass,
+    deviceDetection,
     onSearch,
     resetForm,
     onbatchDel,
